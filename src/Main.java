@@ -7,9 +7,8 @@ import static java.util.Collections.reverseOrder;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("a.txt"));
-        String wholeString;
         String[] parts;
-        Map<String, Integer> counterMap = new HashMap<>();;
+        Map<String, Integer> counterMap = new HashMap<>();
         try {
             String line;
             while ((line = br.readLine()) != null) {
@@ -35,8 +34,7 @@ public class Main {
         for (int f : sorted.values()) {
             totalWordCount += f;
         }
-
-        File csvFile = new File("table.csv");
+        
         String eol = System.lineSeparator();
 
         try (Writer writer = new FileWriter("table.csv")) {
