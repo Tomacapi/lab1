@@ -7,23 +7,17 @@ import static java.util.Collections.reverseOrder;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("a.txt"));
-        String wholeString;
         String[] parts;
-        Map<String, Integer> counterMap;
+        Map<String, Integer> counterMap = new HashMap<>();
         try {
-            wholeString = "";
             String line;
             while ((line = br.readLine()) != null) {
-                wholeString += line + System.lineSeparator();
-            }
-            parts = wholeString.toLowerCase().split("[^A-Za-z]+");
-            counterMap = new HashMap<>();
-            int i;
-            for (i = 0; i < parts.length; i++) {
-                String word = parts[i];
-                counterMap.compute(word, (key, value) -> value == null ? 1 : value + 1);
-            }
+                parts = line.toLowerCase().split("[^A-Za-z]+");
+                for (String word : parts) {
+                    counterMap.compute(word, (key, value) -> value == null ? 1 : value + 1);
+                }
 
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
@@ -36,9 +30,9 @@ public class Main {
                         Map.Entry::getKey, Map.Entry::getValue,
                         (e1, e2) -> e2, LinkedHashMap::new));
 
-        int sum = 0;
+        int totalWordCount = 0;
         for (int f : sorted.values()) {
-            sum += f;
+            totalWordCount += f;
         }
 
         File csvFile = new File("table.csv");
@@ -51,7 +45,7 @@ public class Main {
                         .append(entry.getValue().toString())
                         .append(';');
                 float v = entry.getValue();
-                v = v / sum * 100;
+                v = v / totalWordCount * 100;
                 String y = String.valueOf(v);
                 writer.append(y).append(eol);
 
